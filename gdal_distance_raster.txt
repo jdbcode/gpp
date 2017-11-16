@@ -1,0 +1,11 @@
+
+
+gdal_translate -ot Int32 -a_nodata none gpp_1080x2160_mean_annual_g.tif gpp_1080x2160_mean_annual_g_int.tif
+
+gdal_calc -A gpp_1080x2160_mean_annual_g_int.tif --outfile=land_water.tif --calc="A==-2147483648"
+
+gdal_sieve -8 -st 100 land_water.tif land_water_cont.tif
+
+gdal_proximity -distunits GEO land_water_cont.tif land_water_dist_geo.tif
+
+gdal_proximity -distunits PIXEL land_water_cont.tif land_water_dist_pixel.tif
